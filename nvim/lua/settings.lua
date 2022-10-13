@@ -25,19 +25,31 @@ require('packer').startup(function(use)
   --pluginzone
   use 'wbthomason/packer.nvim'
   use 'kyazdani42/nvim-web-devicons'
+
+  --syntax highlightning
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
-  use 'doums/darcula'
 
-  --para el bootstrap
+  --theme
+  use {
+    'briones-gabriel/darcula-solid.nvim',
+    requires = 'rktjmp/lush.nvim'
+  }
+
+  --LSP
+  use {
+    'neovim/nvim-lspconfig'
+  }
+
+  --para packer bootstrap
   if packer_bootstrap then
     require('packer').sync()
   end
 end)
 
--- configuración de plugins
+--configuración de plugins
 --treesitter config
 local configs = require'nvim-treesitter.configs'
 configs.setup {
@@ -58,29 +70,31 @@ configs.setup {
     enable = true,
   }
 }
+
 --theme config
-cmd[[colorscheme darcula]]
+cmd[[colorscheme darcula-solid]]
+
+
+--lsp config
 
 
 -- global options
 wo.number = true                --números
 wo.relativenumber = true        --números relativos
-opt.autoread = true             --change file when it's changed from outside of vim
-opt.background = 'dark'
+opt.autoread = true             --releer archivo si es cambiado desde afuera de vim
 opt.encoding = 'utf-8'
 opt.hidden = true               --enable background buffers
 opt.incsearch = false           --no ir mostrando dónde acierta la búsqueda
 opt.ignorecase = true           --ignore case on search
 opt.inccommand = 'split'        --splitear cuando haga comandos
 opt.scrolloff = 10              --mantener 10 líneas desde top/bottom
-opt.sidescrolloff = 10           --mantener 10 columnas cuando te vas al límite por el costado
+opt.sidescrolloff = 10          --mantener 10 columnas cuando te vas al límite por el costado
+opt.cursorline = true           --línea en posición de cursor
 opt.expandtab = true            --space instead of tab
 opt.shiftwidth = 2              --indentación con >>/<<
 opt.softtabstop = 2             --espacios por los que cuenta un tab
 opt.smartindent = true          --pequeñas reglas que ayudan a la indentación
 opt.wrap = false                --no hacer wrap de línea
-opt.cursorline = true           --activar cursorline
-opt.cursorlineopt = 'number,screenline' --que resalte toda la línea
 opt.termguicolors = true        --más colores en terminal
 opt.pumblend = 30               --opacidad de autocmp
 opt.list = true                 --mostrar espacios y tabs
